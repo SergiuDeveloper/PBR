@@ -1,0 +1,5 @@
+(assert (conditions
+	(PrinterCannotPrint Yes)
+	(RedLightFlashing Yes)
+	(PrinterUnrecognized Yes)
+))

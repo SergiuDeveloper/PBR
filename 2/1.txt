@@ -1,0 +1,5 @@
+(assert	(weather
+	(Outlook Overcast)
+	(Humidity High)
+	(Wind Strong)
+))
