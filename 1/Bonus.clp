@@ -1,0 +1,53 @@
+(deftemplate subject
+	(slot name)
+	(slot package)
+	(slot difficulty)
+	(slot final_project)
+	(slot front_back_end)
+	(slot final_exam)
+	(slot human_aspects)
+	(slot industrial_utility)
+	(slot scientific_utility)
+)
+
+(deftemplate preference
+	(slot difficulty)
+	(slot final_project)
+	(slot front_back_end)
+	(slot final_exam)
+	(slot human_aspects)
+	(slot industrial_utility)
+	(slot scientific_utility)
+)
+
+(defrule get_optimal_subjects
+	(preference
+		(difficulty ?difficulty)
+		(final_project ?final_project)
+		(front_back_end ?front_back_end)
+		(final_exam ?final_exam)
+		(human_aspects ?human_aspects)
+		(industrial_utility ?industrial_utility)
+		(scientific_utility ?scientific_utility)
+	)
+	=>
+	(loop-for-count (?package 1 3) do
+		(printout t "Package " ?package ":" crlf)
+		(bind ?opt_subjs
+			(find-all-facts ((?subj subject))
+				(and	(eq ?subj:package ?package)
+						(or (eq ?difficulty nil) (eq ?subj:difficulty ?difficulty))
+						(or (eq ?final_project nil) (eq ?subj:final_project ?final_project))
+						(or (eq ?front_back_end nil) (eq ?subj:front_back_end ?front_back_end))
+						(or (eq ?final_exam nil) (eq ?subj:final_exam ?final_exam))
+						(or (eq ?human_aspects nil) (eq ?subj:human_aspects ?human_aspects))
+						(or (eq ?industrial_utility nil) (eq ?subj:industrial_utility ?industrial_utility))
+						(or (eq ?scientific_utility nil) (eq ?subj:scientific_utility ?scientific_utility))
+				)
+			)
+		)
+		(progn$ (?opt_subj ?opt_subjs)
+			(printout t "\"" (fact-slot-value ?opt_subj name) "\"" crlf)
+		)
+	)
+)
