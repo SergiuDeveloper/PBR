@@ -19,6 +19,7 @@
 	(return $?vals)
 )
 
+
 (deffunction partition (?low ?high $?vals)
 	(bind ?pivot (nth$ ?high $?vals))
 	(bind ?i (- ?low 1))
@@ -70,22 +71,34 @@
 	(return $?uniqueVals)
 )
 
+(defrule BubbleSortRule
+	?menuVal <- (menu 2)
+	?list <- (list $?v1 ?a1 ?a2 $?v2)
+	(test (> ?a1 ?a2))
+	=>
+	(retract ?list)
+	(retract ?menuVal)
+	(assert (list $?v1 ?a2 ?a1 $?v2))
+	(retract ?menuVal)
+	(assert (menu 2))
+)
+
+(defrule BubbleSortPrint
+	?menuVal <- (menu 2)
+	?list <- (list $?vals)
+	(not (exists (list $?v1 ?a1 ?a2 $?v2) (> ?a1 ?a2)))
+	=>
+	(printout t "BubbleSort: " $?vals crlf)
+	(retract ?menuVal)
+	(assert (menu 0))
+)
+
 (defrule read-list-rule
 	?menuVal <- (menu 1)
 	=>
 	(bind $?vals (read-list))
 	(assert (list $?vals))
 	(printout t "Read values: " $?vals crlf)
-	(retract ?menuVal)
-	(assert (menu 0))
-)
-
-(defrule bubble-sort-rule
-	?menuVal <- (menu 2)
-	(list $?vals)
-	=>
-	(bind $?vals (bubble-sort $?vals))
-	(printout t "Sorted values(using Bubble-Sort): " $?vals crlf)
 	(retract ?menuVal)
 	(assert (menu 0))
 )
@@ -106,10 +119,9 @@
 	=>
 	(printout t "Which element do you want to insert in the list?" crlf)
 	(bind ?element (read))
-	(bind $?vals (append-element ?element $?vals))
 	(retract ?listVal)
-	(assert (list $?vals))
-	(printout t "List values: " $?vals crlf)
+	(assert (list $?vals ?element))
+	(printout t "List values: " $?vals ?element crlf)
 	(retract ?menuVal)
 	(assert (menu 0))
 )
