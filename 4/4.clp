@@ -8,6 +8,26 @@
 (assert (parsingHistory $?vals G1))
 )
 
+(defrule G1.1
+?parsingHistory <- (parsingHistory $?vals)
+?myText <- (text Am ?verb $?s2)
+=>
+(retract ?myText)
+(retract ?parsingHistory)
+(assert (text G1 $?s2))
+(assert (parsingHistory $?vals G1))
+)
+
+(defrule G1.2
+?myText <- (text La ?noun G1 $?s2)
+?parsingHistory <- (parsingHistory $?vals)
+=>
+(retract ?myText)
+(retract ?parsingHistory)
+(assert (text G1 $?s2))
+(assert (parsingHistory $?vals G3))
+)
+
 (defrule G2
 (declare (salience 99))
 ?parsingHistory <- (parsingHistory $?vals)
@@ -132,7 +152,7 @@
 )
 
 (defrule success2
-?myText <- (text G1)
+?myText <- (text $? G1 $?)
 ?parsingHistory <- (parsingHistory $?vals)
 =>
 (retract ?myText)
