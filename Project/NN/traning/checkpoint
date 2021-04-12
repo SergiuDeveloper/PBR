@@ -1,2 +1,2 @@
-model_checkpoint_path: "xorModel"
-all_model_checkpoint_paths: "xorModel"
+model_checkpoint_path: "linearModel"
+all_model_checkpoint_paths: "linearModel"
